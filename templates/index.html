@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <link rel="stylesheet" href="static/app_assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+            <div class="text">
+                <h1>Customer Churn Prediction</h1>
+            </div>
+        <form action="/predict" method="post">
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="Customer_Age" name="Customer_Age">
+                    <div class="underline"></div>
+                    <label for="Customer_Age">Customers Age:</label>
+                </div>
+                <div class="input-data">
+                    <select id="Gender" name="Gender">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                    <div class="underline"></div>
+                    <label for="Gender">Gender:</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="Dependent_count" name="Dependent_count">
+                    <div class="underline"></div>
+                    <label for="Dependent_count">Dependent count:</label>
+                </div>
+                <div class="input-data">
+                    <select id="Income_Category" name="Income_Category">
+                        <option value="1">Less than $40K</option>
+                        <option value="2">$40K - $60K</option>
+                        <option value="3">$60K - $80K</option>
+                        <option value="4">$80K - $120K</option>
+                        <option value="5">$120K+</option>
+                    </select>
+                    <div class="underline"></div>
+                    <label for="Income_Category">Income Category:</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="Months_on_book" name="Months_on_book">
+                    <div class="underline"></div>
+                    <label for="Months_on_book">Months with bank:</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" id="Credit_Limit" name="Credit_Limit">
+                    <div class="underline"></div>
+                    <label for="Credit_Limit">Credit Limit:</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="Total_Trans_Ct" name="Total_Trans_Ct">
+                    <div class="underline"></div>
+                    <label for="Total_Trans_Ct">Transaction Count:</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" id="Total_Trans_Amt" name="Total_Trans_Amt">
+                    <div class="underline"></div>
+                    <label for="Total_Trans_Amt">Transaction Amount:</label>
+                </div>
+            </div>
+
+            <button type="submit" class="custom-btn btn-9" value="Predict">Predict</button>
+        </form>
+        <div class="input-values">
+            {% if input_values %}
+            <h2>Input Values:</h2>
+            <p>
+                <!-- Loop through input values -->
+                {% for key, value in input_values.items() %}
+                    <!-- Render input values -->
+                    {% if key == 'Gender' %}
+                        <strong>{{ key }}:</strong> {{ gender_label }}{% if not loop.last %}, {% endif %}
+                    {% elif key == 'Income_Category' %}
+                        <strong>{{ key }}:</strong> {{ income_category_label }}{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        <strong>{{ key }}:</strong> {{ value }}{% if not loop.last %}, {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </p>
+            {% endif %}
+        </div>
+        {% if prediction is defined %}
+        <!-- Centered prediction value and message with styling -->
+        <div style="text-align: center; margin-top: 20px;">
+            <p style="font-size: 20px; font-weight: bold; color: {% if prediction == 1 %}#ff5733{% else %}#4CAF50{% endif %};">
+                Prediction: {{ prediction }}
+            </p>
+            <p style="font-size: 18px; color: {% if prediction == 1 %}#ff5733{% else %}#4CAF50{% endif %};">
+                {{ churn_message }}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
